@@ -1,3 +1,7 @@
 strong Questions
 p= render @questions
-p= link_to 'Ask question', new_question_path
+
+- if user_signed_in?
+  p= link_to 'Ask question', new_question_path
+- else 
+  p= link_to 'Sign in to ask a question', new_user_session_path

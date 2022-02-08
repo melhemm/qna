@@ -4,4 +4,7 @@ p= question.body
 h3 Questions answers
 
 = render @question.answers
-= render 'answers/form'
+- if user_signed_in?
+  = render 'answers/form'
+- else
+  p= link_to 'Sign in to write an answer', new_user_session_path
