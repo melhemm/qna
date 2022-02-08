@@ -1,11 +1,14 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  # before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_question, only: %i[show edit update destroy]
 
   def index
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @answer = @question.answers.new
+  end
 
   def new; end
 
@@ -44,5 +47,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def set_question
+    @question = Question.find(params[:id])
   end
 end
