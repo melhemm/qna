@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: %i[show]
-  before_action :set_question, only: %i[create show]
+  before_action :authenticate_user!, except: %i[show]
+  before_action :set_answer, only: %i[show destroy]
+  before_action :set_question, only: %i[create]
 
   def index; end
 
@@ -10,19 +11,27 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answers_params)
+    @answer.user = current_user
 
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
-  
+
   def edit; end
 
   def update; end
 
-  def destroy; end
+  def destroy
+    if current_user&.author?(@answer)
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: 'answer deleted'
+    else
+      redirect_to question_path(@answer.question)
+    end
+  end
 
   private
 
@@ -37,5 +46,4 @@ class AnswersController < ApplicationController
   def answers_params
     params.require(:answer).permit(:body)
   end
-
 end
