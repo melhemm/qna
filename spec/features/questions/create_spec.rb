@@ -21,7 +21,7 @@ feature 'User can create question', %q{
       fill_in 'Body', with: 'text text text'
       click_on 'Ask'
 
-      expect(page).to have_content 'Your question successfully created.'  
+      expect(page).to have_content 'Question successfully created.'  
       expect(page).to have_content 'Test question'  
       expect(page).to have_content 'text text text'  
 
@@ -34,10 +34,10 @@ feature 'User can create question', %q{
     end
   end
 
-  scenario 'Unauthenticated user trues to ask  a question' do
+  scenario 'Unauthenticated user trying to ask a question' do
     visit questions_path
-    click_on 'Ask question'
+    click_on 'Sign in to ask a question'
 
-    expect(page).to have_content "You need to sign in or sign up before continuing."
+    expect(page).to have_content "Log in"
   end
 end

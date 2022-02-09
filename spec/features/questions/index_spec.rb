@@ -5,14 +5,14 @@ feature 'User can get all questions', %q{
   I'd like to be able to get all questions
 } do 
 
-  given(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'get all questions' do
     visit root_path
 
     expect(page).to have_content 'Questions'
-    expect(page).to have_content question.title
-    expect(page).to have_content question.body
+    questions.each { |question| expect(page).to have_content question.title }
   end
 end
   
