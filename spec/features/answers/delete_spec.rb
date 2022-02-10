@@ -15,8 +15,6 @@ feature 'User can delete his answer', %q{
     visit question_path(answer.question)
     click_on "Delete answer"
 
-    expect(page).to have_content question.title
-    expect(page).to have_content answer.body
     expect(page).to have_content 'answer deleted'
   end
 
@@ -25,6 +23,14 @@ feature 'User can delete his answer', %q{
     visit question_path(answer.question)
 
     expect(page).to_not have_link 'Delete answer'
+  end
+
+  scenario 'Unauthenticated user trying to delete answer' do
+    visit question_path(answer.question)
+    expect(page).to_not have_link 'Delete answer'
+    click_on 'Sign in to write an answer'
+
+    expect(page).to have_content "Log in"
   end
 
 end
