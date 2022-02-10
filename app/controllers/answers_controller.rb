@@ -12,11 +12,12 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answers_params)
     @answer.user = current_user
-
+    
     if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
+      redirect_to @answer.question, notice: 'Your answer successfully created.'
     else
-      render 'questions/show'
+      redirect_to question_path(@question)
+      flash[:alert] = @answer.errors.full_messages.join(', ')
     end
   end
 

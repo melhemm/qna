@@ -29,4 +29,12 @@ feature 'User can write answers for a question', %q{
   
     expect(page).to have_content 'Log in'
   end
+
+  scenario 'write answer with errors' do
+    sign_in(user)
+    visit question_path(question.id)
+    click_on 'Write answer'
+
+    expect(page).to have_content "Body can't be blank"
+  end
 end
