@@ -16,8 +16,8 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @answer.question, notice: 'Your answer successfully created.'
     else
-      redirect_to question_path(@question)
-      flash[:alert] = @answer.errors.full_messages.join(', ')
+      render 'questions/show'
+      flash[:alert] = @answer.errors.full_messages.join(' ')
     end
   end
 
