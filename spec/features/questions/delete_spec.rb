@@ -12,9 +12,13 @@ feature 'User can delete his question', %q{
   scenario 'delete a question' do
     sign_in(author)
     visit question_path(question)
+    expect(page).to have_content 'MyString'
+    expect(page).to have_content 'MyText' 
     click_on 'Delete question'
 
     expect(page).to have_content 'Question deleted'
+    expect(page).to_not have_content 'MyString'
+    expect(page).to_not have_content 'MyText'
   end
 
   scenario 'a member want to delete others question' do
